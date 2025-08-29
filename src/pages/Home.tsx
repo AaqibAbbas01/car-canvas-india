@@ -1,15 +1,17 @@
 import { motion } from "framer-motion";
-import { Search, MapPin, Car, Star, Verified, ArrowRight } from "lucide-react";
+import { Search, MapPin, Car, Star, Verified, ArrowRight, User, CreditCard } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { useAuth } from "@/hooks/useAuth";
 import { CarShowcase } from "@/components/CarShowcase";
 import { FeaturedCars } from "@/components/FeaturedCars";
 import { TrustIndicators } from "@/components/TrustIndicators";
 
 const Home = () => {
+  const { user } = useAuth();
   return (
     <div className="min-h-screen bg-background">
       {/* Navigation Header */}
@@ -26,12 +28,21 @@ const Home = () => {
             </motion.div>
             
             <nav className="hidden md:flex items-center space-x-8">
-              <a href="#" className="text-foreground hover:text-primary transition-colors">Buy Cars</a>
-              <a href="#" className="text-foreground hover:text-primary transition-colors">Sell Car</a>
+              <a href="/cars" className="text-foreground hover:text-primary transition-colors">Buy Cars</a>
+              <a href="/sell" className="text-foreground hover:text-primary transition-colors">Sell Car</a>
               <a href="#" className="text-foreground hover:text-primary transition-colors">Dealers</a>
-              <a href="#" className="text-foreground hover:text-primary transition-colors">Finance</a>
-              <Button variant="outline" className="mr-2">Login</Button>
-              <Button>Sell Your Car</Button>
+              <a href="/finance" className="text-foreground hover:text-primary transition-colors">Finance</a>
+              {user ? (
+                <>
+                  <Button variant="outline" onClick={() => window.location.href = '/dashboard'}>Dashboard</Button>
+                  <Button onClick={() => window.location.href = '/sell'}>Sell Your Car</Button>
+                </>
+              ) : (
+                <>
+                  <Button variant="outline" className="mr-2" onClick={() => window.location.href = '/auth'}>Login</Button>
+                  <Button onClick={() => window.location.href = '/auth'}>Sign Up</Button>
+                </>
+              )}
             </nav>
           </div>
         </div>
@@ -93,7 +104,7 @@ const Home = () => {
                     />
                   </div>
                   
-                  <Button size="lg" className="bg-orange-500 hover:bg-orange-600 text-white">
+                  <Button size="lg" className="bg-orange-500 hover:bg-orange-600 text-white" onClick={() => window.location.href = '/cars'}>
                     <Search className="mr-2 h-4 w-4" />
                     Search Cars
                   </Button>
@@ -134,7 +145,7 @@ const Home = () => {
           <FeaturedCars />
           
           <div className="text-center mt-12">
-            <Button size="lg" variant="outline" className="group">
+            <Button size="lg" variant="outline" className="group" onClick={() => window.location.href = '/cars'}>
               View All Cars
               <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
             </Button>
@@ -190,6 +201,76 @@ const Home = () => {
                 </Card>
               </motion.div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Quick Actions */}
+      <section className="py-16 bg-gray-50">
+        <div className="container mx-auto px-4">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="text-center mb-12"
+          >
+            <h2 className="text-4xl font-bold mb-4">Quick Actions</h2>
+            <p className="text-xl text-muted-foreground">
+              Whether you're buying or selling, we've got you covered
+            </p>
+          </motion.div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <motion.div
+              whileHover={{ scale: 1.05 }}
+              className="text-center"
+            >
+              <Card className="p-8 h-full hover:shadow-lg transition-shadow">
+                <CardContent className="pt-6">
+                  <div className="bg-primary/10 rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-6">
+                    <Car className="w-10 h-10 text-primary" />
+                  </div>
+                  <h3 className="text-xl font-semibold mb-2">Sell Your Car</h3>
+                  <p className="text-muted-foreground mb-4">Get the best price for your car with our easy listing process</p>
+                  <Button onClick={() => window.location.href = user ? '/sell' : '/auth'}>
+                    {user ? 'Sell Now' : 'Login to Sell'}
+                  </Button>
+                </CardContent>
+              </Card>
+            </motion.div>
+            <motion.div
+              whileHover={{ scale: 1.05 }}
+              className="text-center"
+            >
+              <Card className="p-8 h-full hover:shadow-lg transition-shadow">
+                <CardContent className="pt-6">
+                  <div className="bg-primary/10 rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-6">
+                    <User className="w-10 h-10 text-primary" />
+                  </div>
+                  <h3 className="text-xl font-semibold mb-2">My Account</h3>
+                  <p className="text-muted-foreground mb-4">Manage your listings, favorites, and inquiries</p>
+                  <Button onClick={() => window.location.href = user ? '/dashboard' : '/auth'}>
+                    {user ? 'Dashboard' : 'Sign Up'}
+                  </Button>
+                </CardContent>
+              </Card>
+            </motion.div>
+            <motion.div
+              whileHover={{ scale: 1.05 }}
+              className="text-center"
+            >
+              <Card className="p-8 h-full hover:shadow-lg transition-shadow">
+                <CardContent className="pt-6">
+                  <div className="bg-primary/10 rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-6">
+                    <CreditCard className="w-10 h-10 text-primary" />
+                  </div>
+                  <h3 className="text-xl font-semibold mb-2">Car Finance</h3>
+                  <p className="text-muted-foreground mb-4">Get pre-approved loans with competitive interest rates</p>
+                  <Button onClick={() => window.location.href = '/finance'}>
+                    Calculate EMI
+                  </Button>
+                </CardContent>
+              </Card>
+            </motion.div>
           </div>
         </div>
       </section>
