@@ -14,7 +14,308 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      cars: {
+        Row: {
+          brand: string
+          color: string | null
+          condition: string
+          created_at: string
+          dealer_id: string | null
+          description: string | null
+          features: string[] | null
+          fuel_type: string
+          id: string
+          images: string[] | null
+          is_featured: boolean | null
+          mileage: number
+          model: string
+          ownership: number | null
+          price: number
+          registration_city: string
+          registration_state: string
+          seller_id: string
+          status: string | null
+          title: string
+          transmission: string
+          updated_at: string
+          variant: string | null
+          views: number | null
+          year: number
+        }
+        Insert: {
+          brand: string
+          color?: string | null
+          condition: string
+          created_at?: string
+          dealer_id?: string | null
+          description?: string | null
+          features?: string[] | null
+          fuel_type: string
+          id?: string
+          images?: string[] | null
+          is_featured?: boolean | null
+          mileage: number
+          model: string
+          ownership?: number | null
+          price: number
+          registration_city: string
+          registration_state: string
+          seller_id: string
+          status?: string | null
+          title: string
+          transmission: string
+          updated_at?: string
+          variant?: string | null
+          views?: number | null
+          year: number
+        }
+        Update: {
+          brand?: string
+          color?: string | null
+          condition?: string
+          created_at?: string
+          dealer_id?: string | null
+          description?: string | null
+          features?: string[] | null
+          fuel_type?: string
+          id?: string
+          images?: string[] | null
+          is_featured?: boolean | null
+          mileage?: number
+          model?: string
+          ownership?: number | null
+          price?: number
+          registration_city?: string
+          registration_state?: string
+          seller_id?: string
+          status?: string | null
+          title?: string
+          transmission?: string
+          updated_at?: string
+          variant?: string | null
+          views?: number | null
+          year?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "cars_dealer_id_fkey"
+            columns: ["dealer_id"]
+            isOneToOne: false
+            referencedRelation: "dealers"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      dealers: {
+        Row: {
+          address: string | null
+          business_license: string | null
+          business_name: string
+          city: string
+          created_at: string
+          email: string | null
+          id: string
+          phone: string
+          pincode: string | null
+          rating: number | null
+          state: string
+          total_reviews: number | null
+          updated_at: string
+          user_id: string
+          verified: boolean | null
+        }
+        Insert: {
+          address?: string | null
+          business_license?: string | null
+          business_name: string
+          city: string
+          created_at?: string
+          email?: string | null
+          id?: string
+          phone: string
+          pincode?: string | null
+          rating?: number | null
+          state: string
+          total_reviews?: number | null
+          updated_at?: string
+          user_id: string
+          verified?: boolean | null
+        }
+        Update: {
+          address?: string | null
+          business_license?: string | null
+          business_name?: string
+          city?: string
+          created_at?: string
+          email?: string | null
+          id?: string
+          phone?: string
+          pincode?: string | null
+          rating?: number | null
+          state?: string
+          total_reviews?: number | null
+          updated_at?: string
+          user_id?: string
+          verified?: boolean | null
+        }
+        Relationships: []
+      }
+      favorites: {
+        Row: {
+          car_id: string
+          created_at: string
+          id: string
+          user_id: string
+        }
+        Insert: {
+          car_id: string
+          created_at?: string
+          id?: string
+          user_id: string
+        }
+        Update: {
+          car_id?: string
+          created_at?: string
+          id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "favorites_car_id_fkey"
+            columns: ["car_id"]
+            isOneToOne: false
+            referencedRelation: "cars"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      finance_applications: {
+        Row: {
+          car_id: string
+          created_at: string
+          credit_score: number | null
+          down_payment: number | null
+          employment_type: string
+          id: string
+          loan_amount: number
+          loan_tenure: number
+          monthly_income: number
+          status: string | null
+          user_id: string
+        }
+        Insert: {
+          car_id: string
+          created_at?: string
+          credit_score?: number | null
+          down_payment?: number | null
+          employment_type: string
+          id?: string
+          loan_amount: number
+          loan_tenure: number
+          monthly_income: number
+          status?: string | null
+          user_id: string
+        }
+        Update: {
+          car_id?: string
+          created_at?: string
+          credit_score?: number | null
+          down_payment?: number | null
+          employment_type?: string
+          id?: string
+          loan_amount?: number
+          loan_tenure?: number
+          monthly_income?: number
+          status?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "finance_applications_car_id_fkey"
+            columns: ["car_id"]
+            isOneToOne: false
+            referencedRelation: "cars"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      inquiries: {
+        Row: {
+          buyer_id: string
+          car_id: string
+          created_at: string
+          id: string
+          message: string
+          phone: string | null
+          seller_id: string
+          status: string | null
+        }
+        Insert: {
+          buyer_id: string
+          car_id: string
+          created_at?: string
+          id?: string
+          message: string
+          phone?: string | null
+          seller_id: string
+          status?: string | null
+        }
+        Update: {
+          buyer_id?: string
+          car_id?: string
+          created_at?: string
+          id?: string
+          message?: string
+          phone?: string | null
+          seller_id?: string
+          status?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "inquiries_car_id_fkey"
+            columns: ["car_id"]
+            isOneToOne: false
+            referencedRelation: "cars"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      profiles: {
+        Row: {
+          city: string | null
+          created_at: string
+          full_name: string | null
+          id: string
+          is_dealer: boolean | null
+          phone: string | null
+          state: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          city?: string | null
+          created_at?: string
+          full_name?: string | null
+          id?: string
+          is_dealer?: boolean | null
+          phone?: string | null
+          state?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          city?: string | null
+          created_at?: string
+          full_name?: string | null
+          id?: string
+          is_dealer?: boolean | null
+          phone?: string | null
+          state?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
